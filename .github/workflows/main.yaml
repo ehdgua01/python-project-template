@@ -1,0 +1,30 @@
+name: main
+
+on:
+  schedule:
+  - cron: '0 0 * * 0'
+
+jobs:
+  update:
+    runs-on: ubuntu-latest
+
+    steps:
+    - uses: actions/checkout@v2
+
+    - name: Set up Python
+      uses: actions/setup-python@v2
+      with:
+        python-version: 3.8
+
+    - name: Install pre-commit
+      run: |
+        pip install --upgrade pip
+        pip install pre-commit
+
+    - name: Auto-update pre-commit-hooks
+      run: |
+        pre-commit autoupdate
+        git config user.name github-actions
+        git config user.email github-actions@github.com
+        git commit -am "Update .pre-commit-config.yaml" || true
+        git push || true
