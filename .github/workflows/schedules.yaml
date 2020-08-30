@@ -1,11 +1,11 @@
-name: main
+name: schedules
 
 on:
   schedule:
-  - cron: '0 0 * * 0'
+  - cron: '0 0 * * *'
 
 jobs:
-  update:
+  pre-commit-auto-update:
     runs-on: ubuntu-latest
 
     steps:
@@ -23,8 +23,8 @@ jobs:
 
     - name: Auto-update pre-commit-hooks
       run: |
+        git config --global user.name github-actions
+        git config --global user.email github-actions@github.com
         pre-commit autoupdate
-        git config user.name github-actions
-        git config user.email github-actions@github.com
         git commit -am "Update .pre-commit-config.yaml" || true
         git push || true
