@@ -14,17 +14,19 @@ jobs:
     - name: Set up Python
       uses: actions/setup-python@v2
       with:
-        python-version: 3.8
+        python-version: 3.9
 
-    - name: Install pre-commit
+    - name: Install Poetry
+      uses: snok/install-poetry@v1
+
+    - name: Install dependencies
       run: |
-        pip install --upgrade pip
-        pip install pre-commit
+        poetry update pre-commit
 
     - name: Auto-update pre-commit-hooks
       run: |
         git config --global user.name github-actions
         git config --global user.email github-actions@github.com
-        pre-commit autoupdate
-        git commit -am "Update .pre-commit-config.yaml" || true
+        poetry run pre-commit autoupdate
+        git commit -am "Update pre-commit" || true
         git push || true
