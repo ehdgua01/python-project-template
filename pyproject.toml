@@ -8,6 +8,18 @@ profile = "black"
 [tool.flake8]
 max-line-length = 100
 
+[tool.mypy]
+python_version = 3.9
+check_untyped_defs = true
+ignore_errors = false
+ignore_missing_imports = true
+scripts_are_modules = true
+strict_optional = true
+warn_unused_ignores = true
+warn_redundant_casts = true
+warn_unused_configs = true
+plugins = ["pydantic.mypy"]
+
 [tool.poetry]
 name = "python-project-template"
 version = "0.1.0"
