@@ -3,7 +3,7 @@ build: install-deps install-hooks
 lint:
 	poetry run black .
 	poetry run isort .
-	poetry run pflake8 .
+	poetry run flake8 .
 	poetry run mypy .
 
 install-deps:
