@@ -5,27 +5,23 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v2
+
       - uses: actions/setup-python@v2
         with:
           python-version: 3.9
 
       - name: Install Poetry
-        uses: snok/install-poetry@v1
-        with:
-          virtualenvs-create: true
-          virtualenvs-in-project: false
-          virtualenvs-path: ~/.venv
+        run: |
+          curl -sSL https://install.python-poetry.org | python -
+          echo "$HOME/.local/bin" >> $GITHUB_PATH
 
-      - name: Load cached venv
-        id: cached-poetry-dependencies
-        uses: actions/cache@v2
+      - name: Set up Python (cache setup)
+        uses: actions/setup-python@v3
         with:
-          path: ~/.venv
-          key: venv-${{ runner.os }}-${{ hashFiles('**/poetry.lock') }}
+          python-version: '3.9'
+          cache: 'poetry'
 
-      - name: Install dependencies
-        if: steps.cached-poetry-dependencies.outputs.cache-hit != 'true'
-        run: poetry install --no-interaction --no-root
+      - run: poetry install --no-interaction --no-root
 
       - name: Lint
         run: make lint
